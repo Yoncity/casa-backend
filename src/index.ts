@@ -4,10 +4,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import routes from "./api";
+import Database from "./models/database";
 
 dotenv.config();
 
 const app = express();
+
+Database.connect();
 
 app.use(json());
 
