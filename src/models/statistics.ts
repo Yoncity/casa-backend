@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const statisticsSchema = new mongoose.Schema(
   {
     totalUsers: {
-      type: String,
+      type: Number,
       required: true,
     },
     lockedVolume: {

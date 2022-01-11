@@ -26,11 +26,12 @@ const asyncHandler =
       return jsonResponse({
         res,
         status,
-        // message:
-        //   err?.errors && err?.errors[0]
-        //     ? err?.errors[0].message
-        //     : err.message || err.data.errorMessage,
-        // error: !isProduction ? err : undefined,
+        message:
+          err?.errors && err?.errors[0]
+            ? err?.errors[0].message
+            : err.message || err.data.errorMessage,
+        // @ts-ignore
+        error: !isProduction ? err : undefined,
       });
     }
   };
