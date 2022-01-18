@@ -12,3 +12,20 @@ export const createAccount = celebrate({
     signature: Joi.string().required(),
   }),
 });
+
+export const getAccounts = celebrate({
+  params: Joi.object().keys({
+    address: Joi.string().required(),
+  }),
+});
+
+export const updateAccount = celebrate({
+  params: Joi.object().keys({
+    address: Joi.string().required(),
+    accountNumber: Joi.number().min(0).required(),
+  }),
+  body: Joi.object().keys({
+    balance: Joi.string(),
+    active: Joi.boolean(),
+  }),
+});

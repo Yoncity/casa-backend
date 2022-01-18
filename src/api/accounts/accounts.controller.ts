@@ -61,7 +61,27 @@ export const createAccount = async (req: Request, res: Response) => {
 export const getAccounts = async (req: Request, res: Response) => {
   const { address } = req.params;
 
-  const data = await Accounts.find({ owner: address });
+  const data = await Accounts.find({
+    owner: address,
+  });
+
+  return jsonResponse({
+    status: OK,
+    res,
+    data,
+  });
+};
+
+export const updateAccount = async (req: Request, res: Response) => {
+  const {
+    params: { address, accountNumber },
+    body: { balance, active },
+  } = req;
+
+  const data = await Accounts.findOne({
+    owner: address,
+    accountNumber,
+  });
 
   return jsonResponse({
     status: OK,
