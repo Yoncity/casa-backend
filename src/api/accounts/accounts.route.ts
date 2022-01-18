@@ -11,4 +11,8 @@ router
 
 router.get("/:address", asyncHandler(controller.getAccounts));
 
+router
+  .route("/:address/:accountNumber")
+  .put(validator.updateAccount, asyncHandler(controller.updateAccount));
+
 export default router;

@@ -18,25 +18,6 @@ const accountsSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    blockNumber: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
-    blockHash: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    transactionHash: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    signature: {
-      type: String,
-      required: true,
-    },
     active: {
       type: Boolean,
       default: true,
