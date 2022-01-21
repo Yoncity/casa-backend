@@ -25,10 +25,11 @@ export const updateAccount = celebrate({
     accountNumber: Joi.number().min(0).required(),
   }),
   body: Joi.object().keys({
-    amount: Joi.string().required(),
-    status: Joi.string()
-      .valid("new_account", "update_account", "close_account")
-      .required(),
+    status: Joi.string().valid("update_account", "close_account").required(),
+    amount: Joi.when("status", {
+      is: "update_account",
+      then: Joi.string().required(),
+    }),
     blockNumber: Joi.number().required(),
     blockHash: Joi.string().required(),
     transactionHash: Joi.string().required(),
