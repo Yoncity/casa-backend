@@ -11,19 +11,21 @@ const transactionsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    status: {
+    type: {
       type: String,
       enum: ["new_account", "update_account", "close_account"],
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["pending", "failed", "success"],
+      required: true,
+    },
     blockNumber: {
       type: Number,
-      required: true,
     },
     blockHash: {
       type: String,
-      required: true,
-      unique: true,
     },
     transactionHash: {
       type: String,
@@ -32,7 +34,6 @@ const transactionsSchema = new mongoose.Schema(
     },
     signature: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }

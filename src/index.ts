@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import routes from "./api";
 import Database from "./models/database";
+import Web3Controller from "./helpers/web3Controller";
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use(json());
 app.use(cors());
 
 app.use(routes);
+
+new Web3Controller();
 
 const { PORT = 3001 } = process.env;
 

@@ -6,36 +6,21 @@ import updateStatistics from "../../helpers/updateStatistics";
 import { Accounts, Statistics, Transactions } from "../../models/";
 
 export const createAccount = async (req: Request, res: Response) => {
-  const {
-    owner,
-    balance,
-    timestamp,
-    accountNumber,
-    blockNumber,
-    blockHash,
-    transactionHash,
-    signature,
-  } = req.body;
-
-  const firstAccount = await Accounts.findOne({ owner });
+  const { owner, balance, timestamp, transactionHash } = req.body;
 
   const data = await Accounts.create({
     owner,
     balance,
     timestamp,
-    accountNumber,
+    status: "open_account_pending",
   });
-
-  await updateStatistics(!firstAccount, balance);
 
   await Transactions.create({
     accountID: data._id,
     amount: balance,
-    status: "new_account",
-    blockNumber,
-    blockHash,
+    type: "new_account",
+    status: "pending",
     transactionHash,
-    signature,
   });
 
   return jsonResponse({
@@ -64,14 +49,7 @@ export const getAccounts = async (req: Request, res: Response) => {
 export const updateAccount = async (req: Request, res: Response) => {
   const {
     params: { address, accountNumber },
-    body: {
-      amount,
-      status,
-      blockNumber,
-      blockHash,
-      transactionHash,
-      signature,
-    },
+    body: { amount, type, transactionHash },
   } = req;
 
   const data = await Accounts.findOne({
@@ -90,30 +68,16 @@ export const updateAccount = async (req: Request, res: Response) => {
 
   const transactionData: Record<string, any> = {
     accountID: data._id,
-    status,
-    blockNumber,
-    blockHash,
+    type,
     transactionHash,
-    signature,
+    status: "pending",
   };
 
-  if (status === "close_account") {
-    await updateStatistics(false, `-${data.balance}`);
-
+  if (type === "close_account") {
     transactionData.amount = data.balance;
-
-    data.active = false;
-    data.balance = "0";
-  } else {
-    await updateStatistics(false, amount);
-
-    transactionData.amount = amount;
-
-    const newBalance = parseFloat(data.balance) + parseFloat(amount);
-    data.balance = String(newBalance);
-  }
-
-  await data.save();
+    data.status = "close_account_pending";
+    await data.save();
+  } else transactionData.amount = amount;
 
   await Transactions.create(transactionData);
 

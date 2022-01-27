@@ -5,11 +5,7 @@ export const createAccount = celebrate({
     owner: Joi.string().required(),
     balance: Joi.string().required(),
     timestamp: Joi.number().required(),
-    accountNumber: Joi.number().required(),
-    blockNumber: Joi.number().required(),
-    blockHash: Joi.string().required(),
     transactionHash: Joi.string().required(),
-    signature: Joi.string().required(),
   }),
 });
 
@@ -25,14 +21,11 @@ export const updateAccount = celebrate({
     accountNumber: Joi.number().min(0).required(),
   }),
   body: Joi.object().keys({
-    status: Joi.string().valid("update_account", "close_account").required(),
-    amount: Joi.when("status", {
+    type: Joi.string().valid("update_account", "close_account").required(),
+    amount: Joi.when("type", {
       is: "update_account",
       then: Joi.string().required(),
     }),
-    blockNumber: Joi.number().required(),
-    blockHash: Joi.string().required(),
     transactionHash: Joi.string().required(),
-    signature: Joi.string().required(),
   }),
 });

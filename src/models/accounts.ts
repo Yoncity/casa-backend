@@ -16,11 +16,12 @@ const accountsSchema = new mongoose.Schema(
     },
     accountNumber: {
       type: Number,
-      required: true,
+      // required: true,
     },
-    active: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: String,
+      enum: ["open", "closed", "open_account_pending", "close_account_pending"],
+      required: true,
     },
   },
   { timestamps: true }

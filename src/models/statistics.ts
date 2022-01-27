@@ -2,11 +2,16 @@ import mongoose from "mongoose";
 
 const statisticsSchema = new mongoose.Schema(
   {
-    totalUsers: {
-      type: Number,
+    address: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    totalLockedVolume: {
+      type: String,
       required: true,
     },
-    lockedVolume: {
+    currentLockedVolume: {
       type: String,
       required: true,
     },
